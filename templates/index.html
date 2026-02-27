@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Question Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AI Interview Question Generator</h1>
+            <p class="subtitle">Generate tailored interview questions for any role and difficulty level</p>
+        </header>
+
+        <main>
+            <section class="generator-form">
+                <div class="form-group">
+                    <label for="role">Job Role</label>
+                    <select id="role">
+                        {% for role in roles %}
+                        <option value="{{ role }}">{{ role.replace('_', ' ').title() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="questionType">Question Type</label>
+                    <select id="questionType">
+                        {% for qt in question_types %}
+                        <option value="{{ qt }}">{{ qt.replace('_', ' ').title() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="difficulty">Difficulty Level</label>
+                    <select id="difficulty">
+                        {% for diff in difficulties %}
+                        <option value="{{ diff }}" {% if diff == 'medium' %}selected{% endif %}>
+                            {{ diff.title() }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="numQuestions">Number of Questions</label>
+                    <input type="number" id="numQuestions" min="1" max="15" value="5">
+                </div>
+
+                <div class="form-group">
+                    <label for="customTopics">Custom Topics (comma-separated, optional)</label>
+                    <input type="text" id="customTopics" placeholder="e.g., React hooks, REST APIs, Docker">
+                </div>
+
+                <button id="generateBtn" class="btn-primary" onclick="generateQuestions()">
+                    Generate Questions
+                </button>
+            </section>
+
+            <section id="results" class="results hidden">
+                <div class="results-header">
+                    <h2>Generated Questions</h2>
+                    <button class="btn-secondary" onclick="exportQuestions()">Export as JSON</button>
+                </div>
+                <div id="questionsList"></div>
+            </section>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Generating questions...</p>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

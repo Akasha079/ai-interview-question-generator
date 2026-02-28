@@ -80,3 +80,7 @@ function exportQuestions() {
     a.click();
     URL.revokeObjectURL(url);
 }
+
+function printQuestions() {
+    window.print();
+}
